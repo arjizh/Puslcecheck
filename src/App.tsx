@@ -32,7 +32,7 @@ import {
 } from "lucide-react";
 
 // --- FIREBASE IMPORTS ---
-import { initializeApp } from "firebase/app";
+import * as firebaseApp from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -58,17 +58,17 @@ import {
 // KONFIGURATION
 // ------------------------------------------------------------------
 const firebaseConfig = {
-  apiKey: "AIzaSyB51RoRoxym0epuXuorqfVEQdkgRUwAS7Y",
-  authDomain: "new-surf-ac101.firebaseapp.com",
-  projectId: "new-surf-ac101",
-  storageBucket: "new-surf-ac101.firebasestorage.app",
-  messagingSenderId: "622233276090",
-  appId: "1:622233276090:web:c98bd51cf86f7f6c28fc83",
-  measurementId: "G-89N1XR4R7D",
+  apiKey: "AIzaSyCyFp3YNSLSkk3XpIp6-gbtgtUDv1i5ZYI",
+  authDomain: "pulsecheck-app.firebaseapp.com",
+  projectId: "pulsecheck-app",
+  storageBucket: "pulsecheck-app.firebasestorage.app",
+  messagingSenderId: "728762966444",
+  appId: "1:728762966444:web:275a3e7ce6d3b9086cda09",
+  measurementId: "G-G5XSHY3C1B",
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = firebaseApp.initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
