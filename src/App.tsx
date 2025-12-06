@@ -29,6 +29,8 @@ import {
   Server,
   EyeOff,
   CheckCircle,
+  Settings,
+  Bell,
 } from "lucide-react";
 
 // --- FIREBASE IMPORTS ---
@@ -617,16 +619,20 @@ const About = () => (
       <div className="text-center mb-12">
         <h3 className="text-2xl font-bold text-gray-900">Das Gründerteam</h3>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm flex flex-col items-center text-center">
           <img
             src="https://media.licdn.com/dms/image/v2/D4E03AQE_PYNJybI06A/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1700120706811?e=1766016000&v=beta&t=a2t8wKPZFGo3UW5eEbj3-wOgDN95BzIiL3zqbYy3lGA"
             alt="Rahul Habibur"
-            className="w-28 h-28 rounded-full mb-6 object-cover border-4 border-emerald-50"
+            className="w-64 h-64 rounded-2xl mb-6 object-cover border-4 border-emerald-50 shadow-md"
           />
-          <h4 className="text-xl font-bold text-gray-900">Rahul Habibur</h4>
-          <p className="text-emerald-600 font-medium text-sm mb-4">
-            Co-Founder & Product
+          <h4 className="text-2xl font-bold text-gray-900">Rahul Habibur</h4>
+          <p className="text-emerald-600 font-bold text-lg mb-2">
+            CEO & Co-Founder
+          </p>
+          <p className="text-gray-600 text-base mb-6 max-w-sm">
+            Experte für Produktentwicklung und digitale Strategien im
+            Gesundheitswesen.
           </p>
           <a
             href="https://www.linkedin.com/in/rahulhabibur/"
@@ -641,13 +647,17 @@ const About = () => (
           <img
             src="https://media.licdn.com/dms/image/v2/C4D03AQExKMmaChmp_Q/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1621933336352?e=1766016000&v=beta&t=OVaFlGaPnznWIu0n5A0XkXcD6OhmNNXk1wDL-n6rzF0"
             alt="Dr. Arjun Thanabalasingam"
-            className="w-28 h-28 rounded-full mb-6 object-cover border-4 border-blue-50"
+            className="w-64 h-64 rounded-2xl mb-6 object-cover border-4 border-blue-50 shadow-md"
           />
-          <h4 className="text-xl font-bold text-gray-900">
+          <h4 className="text-2xl font-bold text-gray-900">
             Dr. Arjun Thanabalasingam
           </h4>
-          <p className="text-blue-600 font-medium text-sm mb-4">
-            Co-Founder & Medicine
+          <p className="text-blue-600 font-bold text-lg mb-2">
+            Verwaltungsratspräsident
+          </p>
+          <p className="text-gray-600 text-base mb-6 max-w-sm">
+            Facharzt FMH und medizinischer Visionär. Verbindet klinische
+            Erfahrung mit Innovation.
           </p>
           <a
             href="https://www.linkedin.com/in/dr-arjun-thanabalasingam-a1871a111/"
@@ -1211,232 +1221,355 @@ const Dashboard = ({
   handleDeleteEmployee,
   handleSendWhatsappSurvey,
   aiReports,
-}: any) => (
-  <div className="flex min-h-screen bg-gray-50">
-    <div className="w-64 bg-white border-r border-gray-200 hidden lg:block fixed h-full">
-      <div className="p-6 border-b border-gray-100">
-        <h2 className="text-xl font-bold text-gray-900">Team Feedback</h2>
-      </div>
-      <div className="p-4 space-y-2">
-        <button
-          onClick={() => setDashboardView("overview")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
-            dashboardView === "overview"
-              ? "bg-emerald-600 text-white"
-              : "text-gray-600 hover:bg-gray-100"
-          }`}
-        >
-          <LayoutDashboard size={20} /> Dashboard
-        </button>
-        <button
-          onClick={() => setDashboardView("employees")}
-          className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
-            dashboardView === "employees"
-              ? "bg-emerald-600 text-white"
-              : "text-gray-600 hover:bg-gray-100"
-          }`}
-        >
-          <Users size={20} /> Mitarbeiter
-        </button>
-      </div>
-      <div className="absolute bottom-0 w-full p-4 border-t border-gray-100">
-        <div className="flex items-center gap-3 px-4 py-3 mb-2">
-          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-xs">
-            {currentUser?.email?.charAt(0).toUpperCase() || "D"}
-          </div>
-          <div className="text-sm">
-            <p className="font-bold text-gray-900 truncate w-32">
-              {currentUser?.email || "Laden..."}
-            </p>
-            <p className="text-xs text-gray-500">Admin</p>
-          </div>
+}: any) => {
+  const [testInterval, setTestInterval] = useState("weekly");
+
+  return (
+    <div className="flex min-h-screen bg-gray-50">
+      <div className="w-64 bg-white border-r border-gray-200 hidden lg:block fixed h-full">
+        <div className="p-6 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900">Team Feedback</h2>
         </div>
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-2 text-red-500 font-medium text-sm hover:bg-red-50 rounded-lg"
-        >
-          <LogOut size={16} /> Abmelden
-        </button>
+        <div className="p-4 space-y-2">
+          <button
+            onClick={() => setDashboardView("overview")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
+              dashboardView === "overview"
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-100"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <LayoutDashboard size={20} /> Dashboard
+          </button>
+          <button
+            onClick={() => setDashboardView("employees")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
+              dashboardView === "employees"
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-100"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <Users size={20} /> Mitarbeiter
+          </button>
+          <button
+            onClick={() => setDashboardView("reports")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
+              dashboardView === "reports"
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-100"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <FileText size={20} /> Wochenberichte
+          </button>
+          <button
+            onClick={() => setDashboardView("settings")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition ${
+              dashboardView === "settings"
+                ? "bg-emerald-600 text-white shadow-md shadow-emerald-100"
+                : "text-gray-600 hover:bg-gray-100"
+            }`}
+          >
+            <Settings size={20} /> Einstellungen
+          </button>
+        </div>
+        <div className="absolute bottom-0 w-full p-4 border-t border-gray-100">
+          <div className="flex items-center gap-3 px-4 py-3 mb-2">
+            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-xs">
+              {currentUser?.email?.charAt(0).toUpperCase() || "D"}
+            </div>
+            <div className="text-sm">
+              <p className="font-bold text-gray-900 truncate w-32">
+                {currentUser?.email || "Laden..."}
+              </p>
+              <p className="text-xs text-gray-500">Admin</p>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-2 text-red-500 font-medium text-sm hover:bg-red-50 rounded-lg"
+          >
+            <LogOut size={16} /> Abmelden
+          </button>
+        </div>
       </div>
-    </div>
-    <div className="flex-1 lg:ml-64 p-8">
-      {dashboardView === "overview" && (
-        <>
-          <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleSendWhatsappSurvey();
-                }}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg flex items-center gap-2 hover:bg-emerald-700 transition shadow-sm"
-              >
-                <Send size={16} /> Feedback anfordern
-              </button>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="text-gray-500 text-sm font-medium mb-2">
-                Aktuelle Stimmung
+      <div className="flex-1 lg:ml-64 p-8">
+        {dashboardView === "overview" && (
+          <>
+            <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
               </div>
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-3xl font-bold text-gray-900">
-                  {dashboardData.moodScore}
-                </span>
-                <span className="text-gray-400 text-lg">/ 10</span>
-              </div>
-              <div className="flex items-center text-emerald-700 text-sm font-medium bg-emerald-50 inline-block px-2 py-1 rounded">
-                <TrendingUp size={14} className="mr-1" /> stabil
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="text-gray-500 text-sm font-medium mb-2">
-                Teilnahmequote
-              </div>
-              <div className="flex items-baseline gap-2 mb-2">
-                <span className="text-3xl font-bold text-gray-900">
-                  {dashboardData.participation}%
-                </span>
-              </div>
-              <div className="text-sm text-gray-500">
-                {dashboardData.responses} Antworten erhalten
-              </div>
-              <div className="w-full bg-gray-100 rounded-full h-1.5 mt-3">
-                <div
-                  className="bg-emerald-600 h-1.5 rounded-full"
-                  style={{ width: "86%" }}
-                ></div>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="text-gray-500 text-sm font-medium mb-2">
-                Top Thema
-              </div>
-              <div className="text-xl font-bold text-gray-900 mb-1">
-                {dashboardData.topTopic}
-              </div>
-              <div className="text-sm text-gray-500">
-                Häufig im Freitext erwähnt
-              </div>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
-            <div className="p-6 border-b flex justify-between">
-              <h3 className="font-bold flex items-center gap-2">
-                <Sparkles size={18} className="text-purple-600" /> KI-Berichte
-              </h3>
-            </div>
-            {aiReports && aiReports.length > 0 ? (
-              aiReports.map((r: any) => (
-                <div key={r.id} className="p-6 border-b">
-                  <div className="flex justify-between mb-2">
-                    <h4 className="font-bold text-sm flex items-center gap-2">
-                      <Activity size={16} /> Analyse (
-                      {r.date?.seconds
-                        ? new Date(r.date.seconds * 1000).toLocaleDateString()
-                        : "Datum unbekannt"}
-                      )
-                    </h4>
-                  </div>
-                  <p className="text-gray-700 leading-relaxed">{r.summary}</p>
-                  {r.actionItems && (
-                    <div className="mt-4 bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-                      <h5 className="font-bold text-sm text-yellow-800 flex items-center gap-2 mb-2">
-                        <User size={16} />
-                        Handlungsvorschläge
-                      </h5>
-                      <ul className="list-disc pl-5 text-yellow-900">
-                        {r.actionItems.map((item: string, i: number) => (
-                          <li key={i} className="text-sm mb-1">
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              ))
-            ) : (
-              <div className="p-8 text-center text-gray-500">
-                Noch keine Daten verfügbar. Starten Sie eine Umfrage!
-              </div>
-            )}
-          </div>
-        </>
-      )}
-      {dashboardView === "employees" && (
-        <div className="max-w-4xl">
-          <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
-            <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <Plus size={18} /> Mitarbeiter hinzufügen
-            </h3>
-            <form onSubmit={handleAddEmployee} className="flex flex-col gap-4">
-              <div className="flex gap-4">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"
-                  value={newEmpName}
-                  onChange={(e) => setNewEmpName(e.target.value)}
-                />
-                <select
-                  className="px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-emerald-600 outline-none"
-                  value={newEmpRole}
-                  onChange={(e) => setNewEmpRole(e.target.value)}
-                >
-                  <option value="MPA">MPA</option>
-                  <option value="Arzt">Arzt</option>
-                </select>
-              </div>
-              <div className="flex gap-4 relative">
-                <div className="absolute left-3 top-2.5 text-gray-400">
-                  <Phone size={16} />
-                </div>
-                <input
-                  type="text"
-                  placeholder="WhatsApp (+41...)"
-                  className="w-full pl-10 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"
-                  value={newEmpPhone}
-                  onChange={(e) => setNewEmpPhone(e.target.value)}
-                />
+              <div>
                 <button
-                  type="submit"
-                  className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSendWhatsappSurvey();
+                  }}
+                  className="px-4 py-2 bg-emerald-600 text-white rounded-lg flex items-center gap-2 hover:bg-emerald-700 transition shadow-sm"
                 >
-                  Hinzufügen
+                  <Send size={16} /> Feedback anfordern
                 </button>
               </div>
-            </form>
-          </div>
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            {employees.map((emp: any) => (
-              <div
-                key={emp.id}
-                className="p-4 border-b flex justify-between items-center hover:bg-gray-50"
-              >
-                <span>{emp.name}</span>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-gray-500">{emp.phone}</span>
-                  <button
-                    className="text-gray-400 hover:text-red-500 transition"
-                    onClick={() => handleDeleteEmployee(emp.id)}
-                  >
-                    <Trash2 size={16} />
-                  </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-gray-500 text-sm font-medium mb-2">
+                  Aktuelle Stimmung
+                </div>
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-3xl font-bold text-gray-900">
+                    {dashboardData.moodScore}
+                  </span>
+                  <span className="text-gray-400 text-lg">/ 10</span>
+                </div>
+                <div className="flex items-center text-emerald-700 text-sm font-medium bg-emerald-50 inline-block px-2 py-1 rounded">
+                  <TrendingUp size={14} className="mr-1" /> stabil
                 </div>
               </div>
-            ))}
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-gray-500 text-sm font-medium mb-2">
+                  Teilnahmequote
+                </div>
+                <div className="flex items-baseline gap-2 mb-2">
+                  <span className="text-3xl font-bold text-gray-900">
+                    {dashboardData.participation}%
+                  </span>
+                </div>
+                <div className="text-sm text-gray-500">
+                  {dashboardData.responses} Antworten erhalten
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-1.5 mt-3">
+                  <div
+                    className="bg-emerald-600 h-1.5 rounded-full"
+                    style={{ width: "86%" }}
+                  ></div>
+                </div>
+              </div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-gray-500 text-sm font-medium mb-2">
+                  Top Thema
+                </div>
+                <div className="text-xl font-bold text-gray-900 mb-1">
+                  {dashboardData.topTopic}
+                </div>
+                <div className="text-sm text-gray-500">
+                  Häufig im Freitext erwähnt
+                </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+              <div className="p-6 border-b flex justify-between">
+                <h3 className="font-bold flex items-center gap-2">
+                  <Sparkles size={18} className="text-purple-600" /> Neueste
+                  KI-Analyse
+                </h3>
+              </div>
+              {aiReports && aiReports.length > 0 ? (
+                <div className="p-6">
+                  <div className="flex justify-between mb-2">
+                    <h4 className="font-bold text-sm flex items-center gap-2">
+                      <Activity size={16} /> Analyse vom{" "}
+                      {aiReports[0].date?.seconds
+                        ? new Date(
+                            aiReports[0].date.seconds * 1000
+                          ).toLocaleDateString()
+                        : "Datum unbekannt"}
+                    </h4>
+                  </div>
+                  <p className="text-gray-700 leading-relaxed">
+                    {aiReports[0].summary}
+                  </p>
+                </div>
+              ) : (
+                <div className="p-8 text-center text-gray-500">
+                  Noch keine Daten verfügbar.
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {dashboardView === "reports" && (
+          <div className="max-w-4xl">
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">
+              Wochenberichte
+            </h1>
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-8">
+              {aiReports && aiReports.length > 0 ? (
+                aiReports.map((r: any) => (
+                  <div
+                    key={r.id}
+                    className="p-6 border-b hover:bg-gray-50 transition"
+                  >
+                    <div className="flex justify-between mb-2">
+                      <h4 className="font-bold text-sm flex items-center gap-2 text-emerald-800">
+                        <Calendar size={16} />
+                        {r.date?.seconds
+                          ? new Date(r.date.seconds * 1000).toLocaleDateString()
+                          : "Datum unbekannt"}
+                      </h4>
+                    </div>
+                    <p className="text-gray-700 leading-relaxed mb-4">
+                      {r.summary}
+                    </p>
+                    {r.actionItems && (
+                      <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                        <h5 className="font-bold text-sm text-yellow-800 flex items-center gap-2 mb-2">
+                          <CheckCircle size={16} />
+                          Handlungsvorschläge
+                        </h5>
+                        <ul className="list-disc pl-5 text-yellow-900">
+                          {r.actionItems.map((item: string, i: number) => (
+                            <li key={i} className="text-sm mb-1">
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <div className="p-8 text-center text-gray-500">
+                  Noch keine Berichte verfügbar.
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {dashboardView === "employees" && (
+          <div className="max-w-4xl">
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">
+              Mitarbeiter verwalten
+            </h1>
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
+              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Plus size={18} /> Mitarbeiter hinzufügen
+              </h3>
+              <form
+                onSubmit={handleAddEmployee}
+                className="flex flex-col gap-4"
+              >
+                <div className="flex gap-4">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"
+                    value={newEmpName}
+                    onChange={(e) => setNewEmpName(e.target.value)}
+                  />
+                  <select
+                    className="px-4 py-2 border rounded-lg bg-white focus:ring-2 focus:ring-emerald-600 outline-none"
+                    value={newEmpRole}
+                    onChange={(e) => setNewEmpRole(e.target.value)}
+                  >
+                    <option value="MPA">MPA</option>
+                    <option value="Arzt">Arzt</option>
+                  </select>
+                </div>
+                <div className="flex gap-4 relative">
+                  <div className="absolute left-3 top-2.5 text-gray-400">
+                    <Phone size={16} />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="WhatsApp (+41...)"
+                    className="w-full pl-10 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-600 outline-none"
+                    value={newEmpPhone}
+                    onChange={(e) => setNewEmpPhone(e.target.value)}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
+                  >
+                    Hinzufügen
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              {employees.map((emp: any) => (
+                <div
+                  key={emp.id}
+                  className="p-4 border-b flex justify-between items-center hover:bg-gray-50"
+                >
+                  <span>{emp.name}</span>
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm text-gray-500">{emp.phone}</span>
+                    <button
+                      className="text-gray-400 hover:text-red-500 transition"
+                      onClick={() => handleDeleteEmployee(emp.id)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {dashboardView === "settings" && (
+          <div className="max-w-2xl">
+            <h1 className="text-2xl font-bold text-gray-900 mb-6">
+              Einstellungen
+            </h1>
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6">
+              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Bell size={18} /> Feedback Intervall
+              </h3>
+              <p className="text-gray-500 text-sm mb-4">
+                Legen Sie fest, wie oft PulseCheck Ihr Team befragen soll.
+              </p>
+              <div className="flex gap-4 items-center">
+                <select
+                  className="w-full px-4 py-3 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-emerald-600"
+                  value={testInterval}
+                  onChange={(e) => setTestInterval(e.target.value)}
+                >
+                  <option value="weekly">Wöchentlich (Montag 09:00)</option>
+                  <option value="biweekly">Alle 2 Wochen</option>
+                  <option value="monthly">Monatlich</option>
+                  <option value="3min">⚠️ Testmodus: Alle 3 Minuten</option>
+                </select>
+                <button className="bg-emerald-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-emerald-700 transition">
+                  Speichern
+                </button>
+              </div>
+              {testInterval === "3min" && (
+                <div className="mt-4 bg-yellow-50 text-yellow-800 p-4 rounded-lg text-sm border border-yellow-200 flex gap-2">
+                  <Activity size={16} className="flex-shrink-0 mt-0.5" />
+                  <div>
+                    <strong>Achtung:</strong> Im Testmodus erhalten Mitarbeiter
+                    sehr häufig Nachrichten. Nutzen Sie dies nur kurzzeitig zur
+                    Überprüfung.
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <Settings size={18} /> Make.com Webhook
+              </h3>
+              <p className="text-gray-500 text-sm mb-4">
+                Verbindung zur Automatisierungs-Plattform.
+              </p>
+              <input
+                type="text"
+                value="https://hook.eu1.make.com/tst5fhjqrw7a95gkedjyh3737ld4ud2m"
+                disabled
+                className="w-full px-4 py-3 bg-gray-50 border rounded-lg text-gray-500"
+              />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Footer = ({ setCurrentPage }: any) => (
   <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
@@ -1527,7 +1660,7 @@ const Footer = ({ setCurrentPage }: any) => (
   </footer>
 );
 
-const App = () => {
+export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1798,6 +1931,4 @@ const App = () => {
       <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
-};
-
-export default App;
+}
