@@ -12,7 +12,6 @@ import {
   FileText,
   Send,
   Sparkles,
-  User,
   Plus,
   Linkedin,
   Trash2,
