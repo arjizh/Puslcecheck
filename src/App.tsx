@@ -152,18 +152,18 @@ const Navbar = ({
   mobileMenuOpen,
   setMobileMenuOpen,
 }: any) => (
-  <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+  <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between h-16">
         <div
-          className="flex items-center cursor-pointer"
+          className="flex items-center cursor-pointer group"
           onClick={() => setCurrentPage("home")}
         >
-          <div className="flex-shrink-0 flex items-center gap-2">
-            <div className="bg-emerald-600 p-2 rounded-lg text-white">
-              <Activity size={24} />
+          <div className="flex-shrink-0 flex items-center gap-2.5">
+            <div className="bg-gradient-to-br from-emerald-500 to-emerald-700 p-2 rounded-xl text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition">
+              <Activity size={22} />
             </div>
-            <span className="font-bold text-xl text-gray-900 tracking-tight">
+            <span className="font-extrabold text-xl text-gray-900 tracking-tight">
               PulseCheck
             </span>
           </div>
@@ -227,9 +227,9 @@ const Navbar = ({
               </button>
               <button
                 onClick={() => setCurrentPage("register")}
-                className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition shadow-sm"
+                className="bg-gradient-to-br from-emerald-500 to-emerald-700 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:shadow-lg hover:shadow-emerald-200 hover:-translate-y-0.5 transition-all shadow-sm"
               >
-                Testen
+                Kostenlos testen
               </button>
             </div>
           )}
@@ -292,16 +292,25 @@ const Navbar = ({
 );
 
 const Hero = ({ setCurrentPage }: any) => (
-  <div className="relative bg-gradient-to-br from-emerald-50 to-white pt-20 pb-24 overflow-hidden">
+  <div className="relative bg-gradient-to-b from-emerald-50/80 via-white to-white pt-20 pb-24 overflow-hidden">
+    {/* Dekorative, animierte Hintergrund-Blobs */}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-emerald-200/40 rounded-full blur-3xl animate-blob"></div>
+      <div className="absolute top-10 -right-24 w-96 h-96 bg-teal-200/40 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-32 left-1/3 w-96 h-96 bg-sky-200/30 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
+    </div>
+
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="text-center max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+      <div className="text-center max-w-3xl mx-auto animate-fade-up">
+        <div className="inline-flex items-center gap-2 bg-white/70 backdrop-blur border border-emerald-200 text-emerald-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-6 shadow-sm">
           <ShieldCheck size={16} /> Datenhaltung in der Schweiz 🇨🇭
         </div>
-        <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight mb-6 leading-tight">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-6 leading-[1.1]">
           Das Stimmungsbild Ihrer Praxis.
           <br />
-          <span className="text-emerald-600">Automatisch. Per WhatsApp.</span>
+          <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+            Automatisch. Per WhatsApp.
+          </span>
         </h1>
         <p className="text-xl text-gray-500 mb-10 leading-relaxed">
           Schluss mit langweiligen Umfragen. PulseCheck sendet Ihrem Team
@@ -311,22 +320,41 @@ const Hero = ({ setCurrentPage }: any) => (
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button
             onClick={() => setCurrentPage("register")}
-            className="bg-emerald-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-emerald-700 transition shadow-lg shadow-emerald-200 flex items-center justify-center gap-2"
+            className="group bg-gradient-to-br from-emerald-500 to-emerald-700 text-white px-8 py-4 rounded-xl text-lg font-bold hover:shadow-xl hover:shadow-emerald-300/50 hover:-translate-y-0.5 transition-all shadow-lg shadow-emerald-200 flex items-center justify-center gap-2"
           >
-            1 Monat kostenlos testen <ChevronRight size={20} />
+            1 Monat kostenlos testen{" "}
+            <ChevronRight
+              size={20}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </button>
           <button
             onClick={() => setCurrentPage("funktionen")}
-            className="bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-50 transition flex items-center justify-center gap-2"
+            className="bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-xl text-lg font-semibold hover:border-emerald-300 hover:text-emerald-700 hover:shadow-md transition flex items-center justify-center gap-2"
           >
             Funktionen ansehen
           </button>
         </div>
+
+        {/* Trust-Bar */}
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-500">
+          <span className="flex items-center gap-1.5">
+            <Check size={16} className="text-emerald-600" /> Keine
+            App-Installation
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Check size={16} className="text-emerald-600" /> Teilnahmequote
+            &gt; 85%
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Check size={16} className="text-emerald-600" /> Monatlich kündbar
+          </span>
+        </div>
       </div>
 
       <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          <div className="bg-green-100 w-12 h-12 rounded-lg flex items-center justify-center text-green-600 mb-6">
+        <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-emerald-100 transition-all duration-300">
+          <div className="bg-gradient-to-br from-green-100 to-emerald-50 w-12 h-12 rounded-xl flex items-center justify-center text-green-600 mb-6 group-hover:scale-110 transition-transform">
             <MessageCircle size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -337,8 +365,8 @@ const Hero = ({ setCurrentPage }: any) => (
             keine App-Installation. Teilnahmequote &gt; 85%.
           </p>
         </div>
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          <div className="bg-blue-100 w-12 h-12 rounded-lg flex items-center justify-center text-blue-600 mb-6">
+        <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-blue-100 transition-all duration-300">
+          <div className="bg-gradient-to-br from-blue-100 to-sky-50 w-12 h-12 rounded-xl flex items-center justify-center text-blue-600 mb-6 group-hover:scale-110 transition-transform">
             <Sparkles size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -349,8 +377,8 @@ const Hero = ({ setCurrentPage }: any) => (
             ("Schichtplan sorgt für Unruhe"). Sie sparen Stunden an Analysezeit.
           </p>
         </div>
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          <div className="bg-purple-100 w-12 h-12 rounded-lg flex items-center justify-center text-purple-600 mb-6">
+        <div className="group bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 hover:border-purple-100 transition-all duration-300">
+          <div className="bg-gradient-to-br from-purple-100 to-fuchsia-50 w-12 h-12 rounded-xl flex items-center justify-center text-purple-600 mb-6 group-hover:scale-110 transition-transform">
             <FileText size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -377,9 +405,9 @@ const Funktionen = () => (
           PulseCheck ist Ihr digitales HR-Cockpit für die Arztpraxis.
         </p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="space-y-4">
-          <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="group bg-gray-50 hover:bg-white p-8 rounded-2xl border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 space-y-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:scale-110 transition-transform">
             <MessageCircle size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900">
@@ -389,8 +417,8 @@ const Funktionen = () => (
             Automatische Versendung von Umfragen via WhatsApp API.
           </p>
         </div>
-        <div className="space-y-4">
-          <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
+        <div className="group bg-gray-50 hover:bg-white p-8 rounded-2xl border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 space-y-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-sky-50 rounded-xl flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform">
             <Sparkles size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900">KI-Analyse (LLM)</h3>
@@ -398,8 +426,8 @@ const Funktionen = () => (
             Automatische Auswertung von Freitext-Antworten durch KI.
           </p>
         </div>
-        <div className="space-y-4">
-          <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600">
+        <div className="group bg-gray-50 hover:bg-white p-8 rounded-2xl border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 space-y-4">
+          <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-fuchsia-50 rounded-xl flex items-center justify-center text-purple-600 group-hover:scale-110 transition-transform">
             <FileText size={24} />
           </div>
           <h3 className="text-xl font-bold text-gray-900">HR-Gespräche</h3>
@@ -1571,15 +1599,17 @@ const Dashboard = ({
 };
 
 const Footer = ({ setCurrentPage }: any) => (
-  <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+  <footer className="bg-gray-900 text-white pt-12 border-t-4 border-emerald-500">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 pb-12">
       <div>
         <div
-          className="flex items-center gap-2 mb-4 cursor-pointer"
+          className="flex items-center gap-2 mb-4 cursor-pointer w-fit"
           onClick={() => setCurrentPage("home")}
         >
-          <Activity className="text-emerald-500" />
-          <span className="font-bold text-xl">PulseCheck</span>
+          <div className="bg-gradient-to-br from-emerald-500 to-emerald-700 p-1.5 rounded-lg">
+            <Activity size={20} className="text-white" />
+          </div>
+          <span className="font-extrabold text-xl">PulseCheck</span>
         </div>
         <p className="text-gray-400 text-sm">
           Einfaches Feedback & HR für das Gesundheitswesen. <br />
@@ -1654,6 +1684,12 @@ const Footer = ({ setCurrentPage }: any) => (
             AGB
           </li>
         </ul>
+      </div>
+    </div>
+    <div className="border-t border-gray-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-2 text-sm text-gray-500">
+        <p>© {new Date().getFullYear()} Arvin Health Service GmbH. Alle Rechte vorbehalten.</p>
+        <p>Made with 💚 in Zürich, Switzerland 🇨🇭</p>
       </div>
     </div>
   </footer>
